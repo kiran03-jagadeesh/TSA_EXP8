@@ -1,15 +1,10 @@
-# Ex.No: 08     MOVINTG AVERAGE MODEL AND EXPONENTIAL SMOOTHING
-### Date: 
-```
-Developed by: J Kiran
-Reg No: 212221240022
-```
-
+# Ex.No: 08     MOVING AVERAGE MODEL AND EXPONENTIAL SMOOTHING
 ### AIM:
 To implement Moving Average Model and Exponential smoothing Using Python.
 ### ALGORITHM:
 1. Import necessary libraries
-2. Read the electricity time series data from a CSV file,Display the shape and the first 20 rows of the dataset
+2. Read the AirLinePassengers data from a CSV file,Display the shape and the first 20 rows of
+the dataset
 3. Set the figure size for plots
 4. Suppress warnings
 5. Plot the first 50 values of the 'Value' column
@@ -57,65 +52,23 @@ rolling_mean_5 = data['International '].rolling(window=5).mean()
 print("First 10 values of the rolling mean with window size 5:")
 print(rolling_mean_5.head(10))
 ```
+#### Perform rolling average transformation with a window size of 10
+```
+rolling_mean_10 = data['International '].rolling(window=10).mean()
+```
 #### Plot the original data and fitted value (rolling mean with window size 10)
 ```
 plt.plot(data['International '], label='Original Data')
 plt.plot(rolling_mean_10, label='Rolling Mean (window=10)')
-plt.legend()
-plt.show()
-```
-#### Fit an AutoRegressive (AR) model with 13 lags
-```
-lag_order = 13
-model = AutoReg(data['International '], lags=lag_order)
-model_fit = model.fit()
-```
-#### Plot Partial Autocorrelation Function (PACF) and Autocorrelation Function (ACF)
-```
-plot_acf(data['International '])
-plt.title('Autocorrelation Function (ACF)')
-plt.show()
-
-plot_pacf(data['International '])
-plt.title('Partial Autocorrelation Function (PACF)')
-plt.show()
-```
-#### Make predictions using the AR model
-```
-predictions = model_fit.predict(start=lag_order, end=len(data)-1)
-```
-#### Compare the predictions with the original data
-```
-mse = mean_squared_error(data['International '][lag_order:], predictions)
-print('Mean Squared Error (MSE):', mse)
-```
-#### Plot the original data and predictions
-```
-plt.plot(data['International '][lag_order:], label='Original Data')
-plt.plot(predictions, label='Predictions')
-plt.title('AR Model Predictions vs Original Data')
+plt.title('Original Data and Fitted Value (Rolling Mean)')
 plt.xlabel('Index')
 plt.ylabel('International Passengers')
 plt.legend()
 plt.show()
 ```
-
 ### OUTPUT:
-
-# Plot the original data and fitted value
-
-![image](https://github.com/Pavan-Gv/TSA_EXP8/assets/94827772/14b17dad-6b02-47dc-861e-82fdda749065)
-
-## Plot Partial Autocorrelation Function (PACF) and Autocorrelation Function (ACF)
-
-![image](https://github.com/Pavan-Gv/TSA_EXP8/assets/94827772/a83bef6c-a915-45cf-a726-40adefdf50dc)
-
-![image](https://github.com/Pavan-Gv/TSA_EXP8/assets/94827772/18ac6f4b-e075-4fe2-a230-1671482233c9)
-
-# Plot the original data and predictions
-
-![image](https://github.com/Pavan-Gv/TSA_EXP8/assets/94827772/98339c25-f6b1-4a97-8ac3-4d0a20ae4595)
-
+#### Plot the original data and fitted value
+![image](https://github.com/Nivetham1710/TSA_EXP8/assets/94155183/744c7047-9fa7-46b9-9942-bdc6f047ad9d)
 
 ### RESULT:
 Thus we have successfully implemented the Moving Average Model and Exponential smoothing using python.
