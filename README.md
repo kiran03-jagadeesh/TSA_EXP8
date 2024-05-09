@@ -15,57 +15,52 @@ the dataset
 10. Show the plot
 11. Also perform exponential smoothing and plot the graph
 ### PROGRAM:
-#### Import the packages
 ```
-import numpy as np
-import pandas as pd
+# Importing Packages
 import matplotlib.pyplot as plt
-from statsmodels.tsa.stattools import adfuller
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
-from statsmodels.tsa.ar_model import AutoReg
-from sklearn.metrics import mean_squared_error
-```
-#### Read the Airline Passengers dataset from a CSV file
-```
-data = pd.read_csv("/content/airline.csv")
-```
-#### Display the shape and the first 50 rows of the dataset
-```
-print("Shape of the dataset:", data.shape)
-print("First 50 rows of the dataset:")
-print(data.head(50))
-```
-#### Plot the first 50 values of the 'International' column
-```
-plt.plot(data['International '].head(50))
-plt.title('First 50 values of the "International" column')
-plt.xlabel('Index')
-plt.ylabel('International Passengers')
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.arima_process import ArmaProcess
+
+# Reading Dataset
+data = pd.read_csv("/content/Turbine_Data.csv")
+
+# Generating White Noise
+mean = 0
+std = 1
+n = len(data)
+white_noise = np.random.normal(mean, std, size=n)
+
+data['WhiteNoise'] = white_noise
+w_series = pd.Series(white_noise)
+
+# Applying Moving Average
+window_size = 3
+windows = w_series.rolling(window_size)
+moving_averages = windows.mean()
+
+# Plotting Moving Average Series
+plt.figure(figsize=(18, 6))
+plt.plot(moving_averages)
+plt.title("Moving Average Series", fontsize=14)
+plt.xlabel("Time", fontsize=14)
 plt.show()
-```
-#### Perform rolling average transformation with a window size of 5
-```
-rolling_mean_5 = data['International '].rolling(window=5).mean()
-```
-#### Display the first 10 values of the rolling mean
-```
-print("First 10 values of the rolling mean with window size 5:")
-print(rolling_mean_5.head(10))
-```
-#### Perform rolling average transformation with a window size of 10
-```
-rolling_mean_10 = data['International '].rolling(window=10).mean()
-```
-#### Plot the original data and fitted value (rolling mean with window size 10)
-```
-plt.plot(data['International '], label='Original Data')
-plt.plot(rolling_mean_10, label='Rolling Mean (window=10)')
-plt.title('Original Data and Fitted Value (Rolling Mean)')
-plt.xlabel('Index')
-plt.ylabel('International Passengers')
-plt.legend()
+
+# Simulating ARMA Process
+ar1 = np.array([1])
+ma1 = np.array([1, 0.6])
+data_subset = data['ActivePower'].iloc[:100]
+MA_object = ArmaProcess(ar1, ma1)
+simulated_data = MA_object.generate_sample(nsample=100)
+simulated_series = pd.Series(simulated_data, index=data_subset.index)
+
+# Plotting Simulated MA(1) Series
+plt.plot(simulated_series)
+plt.title("MA(1), $\\theta$ = 0.6")
 plt.show()
+
 ```
+
 ### OUTPUT:
 #### Plot the original data and fitted value
 ![image](https://github.com/Nivetham1710/TSA_EXP8/assets/94155183/744c7047-9fa7-46b9-9942-bdc6f047ad9d)
